@@ -14,57 +14,125 @@
     }
 
     body {
-      background: #0d0d0d;
+      background: radial-gradient(circle at top, #1e1b4b 0%, #09090b 45%, #050505 100%);
       color: white;
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 20px;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(168,85,247,0.15), transparent 25%),
+        radial-gradient(circle at 80% 30%, rgba(59,130,246,0.12), transparent 25%),
+        radial-gradient(circle at 50% 80%, rgba(236,72,153,0.12), transparent 25%);
+      pointer-events: none;
+      animation: glowMove 10s linear infinite alternate;
+    }
+
+    @keyframes glowMove {
+      from {
+        transform: translateY(0px) scale(1);
+      }
+      to {
+        transform: translateY(-20px) scale(1.05);
+      }
     }
 
     .container {
       width: 100%;
-      max-width: 900px;
-      background: #171717;
-      border-radius: 30px;
-      padding: 30px;
-      border: 1px solid #2b2b2b;
-      box-shadow: 0 0 40px rgba(0,0,0,0.4);
+      max-width: 920px;
+      background: rgba(10,10,15,0.75);
+      border: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(20px);
+      border-radius: 35px;
+      padding: 35px;
+      box-shadow:
+        0 0 60px rgba(139,92,246,0.18),
+        0 0 120px rgba(59,130,246,0.08);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.04),
+        transparent,
+        rgba(255,255,255,0.02)
+      );
+      pointer-events: none;
     }
 
     h1 {
       text-align: center;
-      font-size: 48px;
-      margin-bottom: 10px;
+      font-size: 58px;
+      font-weight: 900;
+      letter-spacing: -3px;
+      margin-bottom: 12px;
+      background: linear-gradient(90deg, #ffffff, #a855f7, #38bdf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 30px rgba(168,85,247,0.3);
     }
 
     .subtitle {
       text-align: center;
-      color: #999;
-      margin-bottom: 30px;
+      color: #b4b4b8;
+      margin-bottom: 35px;
+      font-size: 15px;
+      letter-spacing: 1px;
     }
 
     .table-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 15px;
+      gap: 16px;
     }
 
     .table-btn {
-      border: none;
-      border-radius: 20px;
-      padding: 25px;
-      font-size: 28px;
-      font-weight: bold;
+      position: relative;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px;
+      padding: 28px 10px;
+      font-size: 26px;
+      font-weight: 800;
       cursor: pointer;
       color: white;
-      background: linear-gradient(135deg, #7c3aed, #db2777);
-      transition: 0.2s;
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(10px);
+      transition: all 0.25s ease;
+      overflow: hidden;
+    }
+
+    .table-btn::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      background: linear-gradient(135deg, #8b5cf6, #3b82f6, #ec4899);
+      opacity: 0;
+      z-index: -1;
+      transition: 0.25s;
+    }
+
+    .table-btn:hover::before {
+      opacity: 1;
     }
 
     .table-btn:hover {
-      transform: scale(1.05);
+      transform: translateY(-4px) scale(1.03);
+      box-shadow:
+        0 0 25px rgba(168,85,247,0.4),
+        0 0 50px rgba(59,130,246,0.2);
     }
 
     .hidden {
@@ -73,72 +141,116 @@
 
     .game-info {
       display: flex;
-      justify-content: space-between;
-      gap: 15px;
+      gap: 16px;
+      margin-bottom: 28px;
       flex-wrap: wrap;
-      margin-bottom: 30px;
     }
 
     .info-box {
       flex: 1;
       min-width: 150px;
-      background: #222;
-      border-radius: 20px;
-      padding: 20px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px;
+      padding: 22px;
+      backdrop-filter: blur(10px);
+      box-shadow: inset 0 0 20px rgba(255,255,255,0.02);
     }
 
     .info-box p {
-      color: #999;
-      margin-bottom: 5px;
+      color: #b4b4b8;
+      margin-bottom: 6px;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     .info-box h2 {
-      font-size: 32px;
+      font-size: 34px;
+      font-weight: 900;
     }
 
     .question-box {
-      background: #222;
-      border-radius: 30px;
-      padding: 60px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 35px;
+      padding: 70px 30px;
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 28px;
+      backdrop-filter: blur(14px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .question-box::before {
+      content: '';
+      position: absolute;
+      width: 250px;
+      height: 250px;
+      background: rgba(168,85,247,0.15);
+      filter: blur(80px);
+      top: -100px;
+      right: -50px;
     }
 
     .question-box h2 {
-      font-size: 72px;
+      font-size: 84px;
+      font-weight: 900;
+      position: relative;
+      z-index: 1;
     }
 
     .answers-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 15px;
+      gap: 16px;
     }
 
     .answer-btn {
-      background: #2a2a2a;
-      border: 1px solid #3a3a3a;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
       color: white;
-      border-radius: 20px;
-      padding: 25px;
-      font-size: 36px;
-      font-weight: bold;
+      border-radius: 24px;
+      padding: 28px;
+      font-size: 38px;
+      font-weight: 900;
       cursor: pointer;
+      transition: all 0.2s ease;
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .answer-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.08), transparent);
+      opacity: 0;
       transition: 0.2s;
     }
 
+    .answer-btn:hover::before {
+      opacity: 1;
+    }
+
     .answer-btn:hover {
-      background: #3a3a3a;
-      transform: scale(1.03);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow:
+        0 0 20px rgba(168,85,247,0.25),
+        0 0 40px rgba(59,130,246,0.12);
     }
 
     .correct {
-      background: #16a34a !important;
-      border-color: #22c55e !important;
+      background: rgba(34,197,94,0.18) !important;
+      border-color: #4ade80 !important;
+      box-shadow: 0 0 25px rgba(34,197,94,0.45) !important;
     }
 
     .wrong {
-      background: #dc2626 !important;
-      border-color: #ef4444 !important;
+      background: rgba(239,68,68,0.18) !important;
+      border-color: #f87171 !important;
+      box-shadow: 0 0 25px rgba(239,68,68,0.4) !important;
     }
 
     .game-over {
@@ -146,64 +258,58 @@
     }
 
     .game-over h2 {
-      font-size: 60px;
+      font-size: 70px;
+      font-weight: 900;
       margin-bottom: 15px;
     }
 
     .final-score {
-      font-size: 90px;
-      font-weight: bold;
-      margin: 20px 0;
+      font-size: 100px;
+      font-weight: 900;
+      margin: 25px 0;
+      background: linear-gradient(90deg, #fff, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .restart-btn {
-      background: white;
-      color: black;
+      background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+      color: white;
       border: none;
-      border-radius: 16px;
-      padding: 16px 30px;
-      font-size: 20px;
-      font-weight: bold;
+      border-radius: 20px;
+      padding: 18px 32px;
+      font-size: 18px;
+      font-weight: 800;
       cursor: pointer;
-      margin-top: 20px;
+      transition: 0.25s;
+      box-shadow: 0 0 25px rgba(139,92,246,0.35);
     }
-  @media (max-width: 768px) {
+
+    .restart-btn:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 0 40px rgba(139,92,246,0.5);
+    }
+
+    @media (max-width: 768px) {
       .container {
-        padding: 20px;
-        border-radius: 20px;
+        padding: 22px;
+        border-radius: 28px;
       }
 
       h1 {
-        font-size: 34px;
-      }
-
-      .subtitle {
-        font-size: 14px;
+        font-size: 40px;
       }
 
       .table-grid {
         grid-template-columns: repeat(2, 1fr);
       }
 
-      .table-btn {
-        font-size: 22px;
-        padding: 20px;
-      }
-
-      .game-info {
-        flex-direction: column;
-      }
-
-      .info-box h2 {
-        font-size: 24px;
-      }
-
       .question-box {
-        padding: 35px 20px;
+        padding: 40px 20px;
       }
 
       .question-box h2 {
-        font-size: 48px;
+        font-size: 54px;
       }
 
       .answers-grid {
@@ -211,13 +317,15 @@
       }
 
       .answer-btn {
-        width: 100%;
-        font-size: 28px;
-        padding: 22px;
+        font-size: 30px;
+      }
+
+      .game-info {
+        flex-direction: column;
       }
 
       .final-score {
-        font-size: 64px;
+        font-size: 70px;
       }
 
       .restart-btn {
@@ -231,7 +339,7 @@
   <div class="container">
 
     <div id="menu-screen">
-      <h1>สร้างโดยไอ้ดาว จุ๊บๆ</h1>
+      <h1>Multiplication Rush</h1>
       <p class="subtitle">เลือกแม่สูตรคูณที่ต้องการเล่น</p>
 
       <div class="table-grid">
