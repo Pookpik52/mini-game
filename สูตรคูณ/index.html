@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multiplication Rush</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #0d0d0d;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      background: #171717;
+      border-radius: 30px;
+      padding: 30px;
+      border: 1px solid #2b2b2b;
+      box-shadow: 0 0 40px rgba(0,0,0,0.4);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #999;
+      margin-bottom: 30px;
+    }
+
+    .table-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 15px;
+    }
+
+    .table-btn {
+      border: none;
+      border-radius: 20px;
+      padding: 25px;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      color: white;
+      background: linear-gradient(135deg, #7c3aed, #db2777);
+      transition: 0.2s;
+    }
+
+    .table-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .game-info {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+
+    .info-box {
+      flex: 1;
+      min-width: 150px;
+      background: #222;
+      border-radius: 20px;
+      padding: 20px;
+    }
+
+    .info-box p {
+      color: #999;
+      margin-bottom: 5px;
+    }
+
+    .info-box h2 {
+      font-size: 32px;
+    }
+
+    .question-box {
+      background: #222;
+      border-radius: 30px;
+      padding: 60px;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .question-box h2 {
+      font-size: 72px;
+    }
+
+    .answers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+    }
+
+    .answer-btn {
+      background: #2a2a2a;
+      border: 1px solid #3a3a3a;
+      color: white;
+      border-radius: 20px;
+      padding: 25px;
+      font-size: 36px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .answer-btn:hover {
+      background: #3a3a3a;
+      transform: scale(1.03);
+    }
+
+    .correct {
+      background: #16a34a !important;
+      border-color: #22c55e !important;
+    }
+
+    .wrong {
+      background: #dc2626 !important;
+      border-color: #ef4444 !important;
+    }
+
+    .game-over {
+      text-align: center;
+    }
+
+    .game-over h2 {
+      font-size: 60px;
+      margin-bottom: 15px;
+    }
+
+    .final-score {
+      font-size: 90px;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+
+    .restart-btn {
+      background: white;
+      color: black;
+      border: none;
+      border-radius: 16px;
+      padding: 16px 30px;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+  @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+        border-radius: 20px;
+      }
+
+      h1 {
+        font-size: 34px;
+      }
+
+      .subtitle {
+        font-size: 14px;
+      }
+
+      .table-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .table-btn {
+        font-size: 22px;
+        padding: 20px;
+      }
+
+      .game-info {
+        flex-direction: column;
+      }
+
+      .info-box h2 {
+        font-size: 24px;
+      }
+
+      .question-box {
+        padding: 35px 20px;
+      }
+
+      .question-box h2 {
+        font-size: 48px;
+      }
+
+      .answers-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .answer-btn {
+        width: 100%;
+        font-size: 28px;
+        padding: 22px;
+      }
+
+      .final-score {
+        font-size: 64px;
+      }
+
+      .restart-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <div id="menu-screen">
+      <h1>สร้างโดยไอ้ดาว จุ๊บๆ</h1>
+      <p class="subtitle">เลือกแม่สูตรคูณที่ต้องการเล่น</p>
+
+      <div class="table-grid">
+        <button class="table-btn" onclick="startGame(2)">แม่ 2</button>
+        <button class="table-btn" onclick="startGame(3)">แม่ 3</button>
+        <button class="table-btn" onclick="startGame(4)">แม่ 4</button>
+        <button class="table-btn" onclick="startGame(5)">แม่ 5</button>
+        <button class="table-btn" onclick="startGame(6)">แม่ 6</button>
+        <button class="table-btn" onclick="startGame(7)">แม่ 7</button>
+        <button class="table-btn" onclick="startGame(8)">แม่ 8</button>
+        <button class="table-btn" onclick="startGame(9)">แม่ 9</button>
+        <button class="table-btn" onclick="startGame(10)">แม่ 10</button>
+        <button class="table-btn" onclick="startGame(11)">แม่ 11</button>
+        <button class="table-btn" onclick="startGame(12)">แม่ 12</button>
+      </div>
+    </div>
+
+    <div id="game-screen" class="hidden">
+      <div class="game-info">
+        <div class="info-box">
+          <p>แม่สูตรคูณ</p>
+          <h2 id="table-name">2</h2>
+        </div>
+
+        <div class="info-box">
+          <p>คะแนน</p>
+          <h2 id="score">0</h2>
+        </div>
+
+        <div class="info-box">
+          <p>เวลา</p>
+          <h2 id="timer">10</h2>
+        </div>
+      </div>
+
+      <div class="question-box">
+        <h2 id="question">2 × 1</h2>
+      </div>
+
+      <div class="answers-grid" id="answers"></div>
+    </div>
+
+    <div id="game-over-screen" class="hidden game-over">
+      <h2>Game Over</h2>
+      <p>คะแนนของคุณ</p>
+      <div class="final-score" id="final-score">0</div>
+
+      <button class="restart-btn" onclick="backToMenu()">
+        กลับหน้าเลือกแม่สูตรคูณ
+      </button>
+    </div>
+
+  </div>
+
+  <script>
+    let selectedTable = 2
+    let currentAnswer = 0
+    let score = 0
+    let timeLeft = 5
+    let timer
+
+    function startGame(table) {
+      selectedTable = table
+      score = 0
+
+      document.getElementById('menu-screen').classList.add('hidden')
+      document.getElementById('game-screen').classList.remove('hidden')
+      document.getElementById('game-over-screen').classList.add('hidden')
+
+      document.getElementById('table-name').textContent = table
+      document.getElementById('score').textContent = score
+
+      generateQuestion()
+    }
+
+    function generateQuestion() {
+      clearInterval(timer)
+
+      const a = selectedTable
+      const b = random(1, 12)
+
+      currentAnswer = a * b
+
+      document.getElementById('question').textContent = `${a} × ${b}`
+
+      const choices = [currentAnswer]
+
+      while (choices.length < 4) {
+        const fake = currentAnswer + random(-10, 10)
+
+        if (fake > 0 && !choices.includes(fake)) {
+          choices.push(fake)
+        }
+      }
+
+      choices.sort(() => Math.random() - 0.5)
+
+      const answersContainer = document.getElementById('answers')
+      answersContainer.innerHTML = ''
+
+      choices.forEach(choice => {
+        const button = document.createElement('button')
+        button.className = 'answer-btn'
+        button.textContent = choice
+
+        button.onclick = () => checkAnswer(choice, button)
+
+        answersContainer.appendChild(button)
+      })
+
+      timeLeft = 5
+      document.getElementById('timer').textContent = timeLeft
+
+      timer = setInterval(() => {
+        timeLeft--
+
+        document.getElementById('timer').textContent = timeLeft
+
+        if (timeLeft <= 0) {
+          clearInterval(timer)
+          endGame()
+        }
+      }, 1000)
+    }
+
+    function checkAnswer(choice, buttonElement) {
+      const allButtons = document.querySelectorAll('.answer-btn')
+
+      allButtons.forEach(btn => {
+        btn.disabled = true
+      })
+
+      if (choice === currentAnswer) {
+        score++
+        timeLeft += 3
+
+        buttonElement.classList.add('correct')
+      } else {
+        score = Math.max(0, score - 1)
+
+        buttonElement.classList.add('wrong')
+
+        allButtons.forEach(btn => {
+          if (Number(btn.textContent) === currentAnswer) {
+            btn.classList.add('correct')
+          }
+        })
+      }
+
+      document.getElementById('score').textContent = score
+      document.getElementById('timer').textContent = timeLeft
+
+      setTimeout(() => {
+        generateQuestion()
+      }, 700)
+    }
+
+    function endGame() {
+      document.getElementById('game-screen').classList.add('hidden')
+      document.getElementById('game-over-screen').classList.remove('hidden')
+
+      document.getElementById('final-score').textContent = score
+    }
+
+    function backToMenu() {
+      clearInterval(timer)
+
+      document.getElementById('game-screen').classList.add('hidden')
+      document.getElementById('game-over-screen').classList.add('hidden')
+      document.getElementById('menu-screen').classList.remove('hidden')
+    }
+
+    function random(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min
+    }
+  </script>
+
+</body>
+</html>
